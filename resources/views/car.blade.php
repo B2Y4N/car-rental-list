@@ -10,7 +10,18 @@
     </head>
     <body>
         <div class="container mt-5">
-            <h2 class="mb-3">Car Rental List</h2>
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2 class="mb-3">Car Rental List</h2>
+                </div>
+                <div class="col-sm-4">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="card">
                 <div class="card-body">
                     <table id="carList" class="table table-bordered">
@@ -30,6 +41,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- START add car modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Car</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- END add car modal -->
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
