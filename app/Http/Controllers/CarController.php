@@ -5,17 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use DataTables;
+use Carbon\Carbon;
 
 class CarController extends Controller
 {
     public function index(Request $request){
         if($request->ajax()) {
-            $data = Car::latest()->get();
+            // $data = Car::latest()->get();
+
+            // only get data with expiry dates that are one month or less away from the date of querying
+            $startDate = Carbon::now();
+            $endDate = $startDate->copy()->addMonth();
+            $data = Car::whereDate('expiryDate', '>=', $startDate)
+                ->whereDate('expiryDate', '<=', $endDate)
+                ->get();
+            
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
                     $btn = '<button class="edit btn btn-secondary btn-sm" onclick="editCar('.$row->id.')">Edit</button>
-                    <button class="delete btn btn-danger btn-sm" onclick="deleteCar('.$row->id.')">Delete</button>';
+                    <button class="delete btn btn-danger btn-sm" onclick="deleteCar('.$row->id.', \''.$row->carPlate.'\')">Delete</button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

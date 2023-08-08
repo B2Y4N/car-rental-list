@@ -10,11 +10,26 @@
     </head>
     <body>
         <div class="container mt-5">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h2 class="mb-3">Car Rental List</h2>
+            <div class="row mb-3">
+                <h2>Car Rental List</h2>
+            </div>
+            <div class="row mb-3">
+                <div class="col-sm-2">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">Start Date</span>
+                        <input type="date" class="form-control" id="startDate" name="startDate">
+                    </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text">End Date</span>
+                        <input type="date" class="form-control" id="endDate" name="endDate">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="customFilter()">Filter</button>
+                </div>
+                <div class="col-sm-6">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                             Add
@@ -160,7 +175,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Car</h1>
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Car <span class="deleteCarPlate"></span></h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -168,7 +183,7 @@
                         @method('DELETE')
                         @csrf
                         <div class="mb-3">
-                            <p style="color: red;">Are you sure you want to delete this?</p>
+                            <p style="color: red;">Are you sure you want to delete this car(<span class="deleteCarPlate"></span>)?</p>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -225,11 +240,18 @@
             })
         };
 
-        function deleteCar(carId){
+        function deleteCar(carId, carPlate){
             var deleteUrl = "{{ route('car.destroy', ':id') }}";
             deleteUrl = deleteUrl.replace(':id', carId);
             $('#deleteModal').modal('show');
             $('#deleteForm').attr('action', deleteUrl);
+            $('.deleteCarPlate').text(carPlate);
+        };
+
+        function customFilter(){
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            $('#carList').DataTable().ajax.reload();
         };
     </script>
 </html>
