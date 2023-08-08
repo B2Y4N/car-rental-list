@@ -201,11 +201,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
     <script type="text/javascript">
-        $(function(){
+        var startDate;
+        var endDate;
+
+        // $(function(){
             var table = $('#carList').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('car.index') }}",
+                ajax: {
+                    url: "{{ route('car.index') }}",
+                    data: function(data){
+                        data.startDate = startDate;
+                        data.endDate = endDate;
+                    },
+                },
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                     {data: 'carPlate', name: 'carPlate'},
@@ -216,7 +225,7 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false},
                 ]
             });
-        });
+        // });
 
         function editCar(carId){
             var showUrl = "{{ route('car.show', ':id') }}";
@@ -249,9 +258,11 @@
         };
 
         function customFilter(){
-            var startDate = $('#startDate').val();
-            var endDate = $('#endDate').val();
-            $('#carList').DataTable().ajax.reload();
+            startDate = $('#startDate').val();
+            endDate = $('#endDate').val();
+            console.log(startDate);
+            console.log(endDate);
+            table.draw();
         };
     </script>
 </html>

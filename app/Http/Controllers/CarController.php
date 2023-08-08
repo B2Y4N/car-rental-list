@@ -16,6 +16,16 @@ class CarController extends Controller
             // only get data with expiry dates that are one month or less away from the date of querying
             $startDate = Carbon::now();
             $endDate = $startDate->copy()->addMonth();
+
+            // if got custom date filter, change startDate and endDate
+            if(!empty($request->startDate)){
+                $startDate = $request->startDate;
+            }
+
+            if(!empty($request->endDate)){
+                $endDate = $request->endDate;
+            }
+
             $data = Car::whereDate('expiryDate', '>=', $startDate)
                 ->whereDate('expiryDate', '<=', $endDate)
                 ->get();
