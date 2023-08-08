@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-sm-4">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
                             Add
                         </button>
                     </div>
@@ -24,10 +24,10 @@
             </div>
             <div class="card">
                 <div class="card-body">
-                    <table id="carList" class="table table-bordered">
+                    <table id="carList" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Car Plate No.</th>
                                 <th>Colour</th>
                                 <th>Propellant</th>
@@ -43,24 +43,143 @@
         </div>
 
         <!-- START add car modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Car</h1>
+                    <h1 class="modal-title fs-5" id="addModalLabel">Add New Car</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form action="{{ route('car.store') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="carPlate" class="form-label">Car Plate No.</label>
+                            <input type="text" class="form-control" id="carPlate" name="carPlate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="colour" class="form-label">Colour</label>
+                            <input type="text" class="form-control" id="colour" name="colour" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propellant" class="form-label">Propellant</label>
+                            <select class="form-select" id="propellant" name="propellant" required>
+                                <option value="" selected disabled>Please select one</option>
+                                <option value="diesel">Diesel</option>
+                                <option value="electric">Electric</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="petrol">Petrol</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="seats" class="form-label">Seats</label>
+                            <select class="form-select" id="seats" name="seats" required>
+                                <option value="" selected disabled>Please select one</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="expiryDate" class="form-label">Expiry date</label>
+                            <input type="date" class="form-control" id="expiryDate" name="expiryDate" required>
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </div>
                 </div>
             </div>
         </div>
         <!-- END add car modal -->
+
+        <!-- START edit car modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editModalLabel">Edit Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" action="" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <div class="mb-3">
+                            <label for="editCarPlate" class="form-label">Car Plate No.</label>
+                            <input type="text" class="form-control" id="editCarPlate" name="editCarPlate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editColour" class="form-label">Colour</label>
+                            <input type="text" class="form-control" id="editColour" name="editColour" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPropellant" class="form-label">Propellant</label>
+                            <select class="form-select" id="editPropellant" name="editPropellant" required>
+                                <option value="diesel">Diesel</option>
+                                <option value="electric">Electric</option>
+                                <option value="hybrid">Hybrid</option>
+                                <option value="petrol">Petrol</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSeats" class="form-label">Seats</label>
+                            <select class="form-select" id="editSeats" name="editSeats" required>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editExpiryDate" class="form-label">Expiry date</label>
+                            <input type="date" class="form-control" id="editExpiryDate" name="editExpiryDate" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- END edit car modal -->
+
+        <!-- START delete car modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLabel">Delete Car</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteForm" action="" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <div class="mb-3">
+                            <p style="color: red;">Are you sure you want to delete this?</p>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- END delete car modal -->
     </body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -83,5 +202,34 @@
                 ]
             });
         });
+
+        function editCar(carId){
+            var showUrl = "{{ route('car.show', ':id') }}";
+            showUrl = showUrl.replace(':id', carId);
+
+            var editUrl = "{{ route('car.update', ':id') }}";
+            editUrl = editUrl.replace(':id', carId);
+            $.ajax({
+                url: showUrl,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                    $('#editModal').modal('show');
+                    $('#editForm').attr('action', editUrl);
+                    $('#editCarPlate').val(data.carPlate);
+                    $('#editColour').val(data.colour);
+                    $('#editPropellant').val(data.propellant);
+                    $('#editSeats').val(data.seats);
+                    $('#editExpiryDate').val(data.expiryDate);
+                }
+            })
+        };
+
+        function deleteCar(carId){
+            var deleteUrl = "{{ route('car.destroy', ':id') }}";
+            deleteUrl = deleteUrl.replace(':id', carId);
+            $('#deleteModal').modal('show');
+            $('#deleteForm').attr('action', deleteUrl);
+        };
     </script>
 </html>

@@ -14,8 +14,8 @@ class CarController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-secondary btn-sm">Edit</a>
-                    <a href="'.route('car.destroy', ['id' => $row->id]).'" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $btn = '<button class="edit btn btn-secondary btn-sm" onclick="editCar('.$row->id.')">Edit</button>
+                    <button class="delete btn btn-danger btn-sm" onclick="deleteCar('.$row->id.')">Delete</button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -36,13 +36,23 @@ class CarController extends Controller
 
     public function store(Request $request){
         Car::create($request->all());
+
+        return redirect()->route('car.index');
     }
 
     public function update(Request $request, $id){
         if(Car::where('id', $id)->exists()){
             $car = Car::find($id);
-            $car->update($request->all());
+            // $car->update($request->all());
+            $car->carPlate = $request->editCarPlate;
+            $car->colour = $request->editColour;
+            $car->propellant = $request->editPropellant;
+            $car->seats = $request->editSeats;
+            $car->expiryDate = $request->editExpiryDate;
+            $car->save();
         }
+
+        return redirect()->route('car.index');
     }
 
     public function destroy($id){
@@ -50,5 +60,7 @@ class CarController extends Controller
             $car = Car::find($id);
             $car->delete();
         }
+
+        return redirect()->route('car.index');
     }
 }
