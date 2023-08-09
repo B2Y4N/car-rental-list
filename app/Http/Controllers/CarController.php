@@ -26,6 +26,7 @@ class CarController extends Controller
 
             $data = Car::whereDate('expiryDate', '>=', $startDate)
                 ->whereDate('expiryDate', '<=', $endDate)
+                ->orderBy('expiryDate', 'asc')
                 ->get();
 
             // $highlightedRows = [];

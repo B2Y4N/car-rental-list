@@ -8,8 +8,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
         <style>
-            table#carList.dataTable tbody tr.highlight{
-                background-color: cornflowerblue !important;
+            table#carList.dataTable thead tr th{
+                background-color: #42aaac !important;
+                color: white;
+            }
+
+            table#carList.dataTable tbody tr.highlight td{
+                background-color: #fcbb16 !important;
                 font-weight: bold;
             }
         </style>
@@ -23,7 +28,7 @@
                 <div class="col-sm-2">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text">Start Date</span>
-                        <input type="date" class="form-control" id="startDate" name="startDate">
+                        <input type="date" class="form-control" id="startDate" name="startDate" onchange="setMinDate()">
                     </div>
                 </div>
                 <div class="col-sm-2">
@@ -238,13 +243,8 @@
                     var expiryDate = new Date(data.expiryDate);
                     var today = new Date(Date.now());
 
-                    console.log(expiryDate);
-                    console.log(today);
-
                     var timeDiff = expiryDate.getTime() - today.getTime();
-
                     var dayDiff = timeDiff / (1000 * 3600 * 24);
-                    console.log(dayDiff);
 
                     if(dayDiff <= 14 && dayDiff >= 0){
                         $(row).addClass('highlight');
@@ -288,5 +288,15 @@
             endDate = $('#endDate').val();
             table.draw();
         };
+
+        function setMinDate(){
+            var minDate = $('#startDate').val();
+
+            if(minDate > $('#endDate').val()){
+                $('#endDate').val("");
+            }
+
+            $('#endDate').prop('min', minDate);
+        }
     </script>
 </html>
