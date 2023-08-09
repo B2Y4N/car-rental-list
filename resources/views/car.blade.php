@@ -7,6 +7,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+        <style>
+            table#carList.dataTable tbody tr.highlight{
+                background-color: cornflowerblue !important;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
         <div class="container mt-5">
@@ -201,8 +207,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
     <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
     <script type="text/javascript">
-        var startDate;
-        var endDate;
+        var startDate = "";
+        var endDate = "";
 
         // $(function(){
             var table = $('#carList').DataTable({
@@ -223,7 +229,27 @@
                     {data: 'seats', name: 'seats'},
                     {data: 'expiryDate', name: 'expiryDate'},
                     {data: 'action', name: 'action', orderable: false, searchable: false},
-                ]
+                ],
+                createdRow: function(row, data, dataIndex){
+                    // if(data.highlight){
+                    //     $(row).addClass('highlight');
+                    // }
+
+                    var expiryDate = new Date(data.expiryDate);
+                    var today = new Date(Date.now());
+
+                    console.log(expiryDate);
+                    console.log(today);
+
+                    var timeDiff = expiryDate.getTime() - today.getTime();
+
+                    var dayDiff = timeDiff / (1000 * 3600 * 24);
+                    console.log(dayDiff);
+
+                    if(dayDiff <= 14 && dayDiff >= 0){
+                        $(row).addClass('highlight');
+                    }
+                }
             });
         // });
 
@@ -260,8 +286,6 @@
         function customFilter(){
             startDate = $('#startDate').val();
             endDate = $('#endDate').val();
-            console.log(startDate);
-            console.log(endDate);
             table.draw();
         };
     </script>

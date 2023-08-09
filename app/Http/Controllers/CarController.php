@@ -11,8 +11,6 @@ class CarController extends Controller
 {
     public function index(Request $request){
         if($request->ajax()) {
-            // $data = Car::latest()->get();
-
             // only get data with expiry dates that are one month or less away from the date of querying
             $startDate = Carbon::now();
             $endDate = $startDate->copy()->addMonth();
@@ -29,15 +27,31 @@ class CarController extends Controller
             $data = Car::whereDate('expiryDate', '>=', $startDate)
                 ->whereDate('expiryDate', '<=', $endDate)
                 ->get();
+
+            // $highlightedRows = [];
+
+            // foreach($data as $index => $row){
+            //     $expiryDate = Carbon::parse($row->expiryDate);
+            //     $twoWeeksLater = now()->addWeeks(2);
+
+            //     if($expiryDate->isBetween(now(), $twoWeeksLater)){
+            //         $highlightedRows[] = $index;
+            //     }
+            // }
+
+            // dd($highlightedRows);
             
             return DataTables::of($data)
                 ->addIndexColumn()
+                // ->addColumn('highlight', function($row) use($highlightedRows){
+                //     return in_array($row->DT_RowIndex, $highlightedRows);
+                // })
                 ->addColumn('action', function($row){
                     $btn = '<button class="edit btn btn-secondary btn-sm" onclick="editCar('.$row->id.')">Edit</button>
                     <button class="delete btn btn-danger btn-sm" onclick="deleteCar('.$row->id.', \''.$row->carPlate.'\')">Delete</button>';
                     return $btn;
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['highlight', 'action'])
                 ->make(true);
         }
 
