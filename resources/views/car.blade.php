@@ -77,15 +77,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('car.store') }}" method="POST">
+                    <form action="{{ route('car.store') }}" method="POST" class="was-validated">
                         @csrf
                         <div class="mb-3">
                             <label for="carPlate" class="form-label">Car Plate No.</label>
-                            <input type="text" class="form-control" id="carPlate" name="carPlate" required>
+                            <input type="text" class="form-control" id="carPlate" name="carPlate" pattern="^[A-Z]{3}[\d]{3,4}[A-Z]{1}$" required>
+                            <div class="invalid-feedback">Please enter correct format</div>
                         </div>
                         <div class="mb-3">
                             <label for="colour" class="form-label">Colour</label>
                             <input type="text" class="form-control" id="colour" name="colour" required>
+                            <div class="invalid-feedback">Please enter a colour</div>
                         </div>
                         <div class="mb-3">
                             <label for="propellant" class="form-label">Propellant</label>
@@ -96,6 +98,7 @@
                                 <option value="hybrid">Hybrid</option>
                                 <option value="petrol">Petrol</option>
                             </select>
+                            <div class="invalid-feedback">Please choose an option</div>
                         </div>
                         <div class="mb-3">
                             <label for="seats" class="form-label">Seats</label>
@@ -109,10 +112,12 @@
                                 <option value="8">8</option>
                                 <option value="9">9</option>
                             </select>
+                            <div class="invalid-feedback">Please choose an option</div>
                         </div>
                         <div class="mb-3">
                             <label for="expiryDate" class="form-label">Expiry date</label>
                             <input type="date" class="form-control" id="expiryDate" name="expiryDate" required>
+                            <div class="invalid-feedback">Please select a date</div>
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -134,16 +139,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm" action="" method="POST">
+                    <form id="editForm" action="" method="POST" class="was-validated">
                         @method('PUT')
                         @csrf
                         <div class="mb-3">
                             <label for="editCarPlate" class="form-label">Car Plate No.</label>
-                            <input type="text" class="form-control" id="editCarPlate" name="editCarPlate" required>
+                            <input type="text" class="form-control" id="editCarPlate" name="editCarPlate" pattern="^[A-Z]{3}[\d]{3,4}[A-Z]{1}$" required>
+                            <div class="invalid-feedback">Please enter correct format</div>
                         </div>
                         <div class="mb-3">
                             <label for="editColour" class="form-label">Colour</label>
                             <input type="text" class="form-control" id="editColour" name="editColour" required>
+                            <div class="invalid-feedback">Please enter a colour</div>
                         </div>
                         <div class="mb-3">
                             <label for="editPropellant" class="form-label">Propellant</label>
@@ -153,6 +160,7 @@
                                 <option value="hybrid">Hybrid</option>
                                 <option value="petrol">Petrol</option>
                             </select>
+                            <div class="invalid-feedback">Please choose an option</div>
                         </div>
                         <div class="mb-3">
                             <label for="editSeats" class="form-label">Seats</label>
@@ -165,10 +173,12 @@
                                 <option value="8">8</option>
                                 <option value="9">9</option>
                             </select>
+                            <div class="invalid-feedback">Please choose an option</div>
                         </div>
                         <div class="mb-3">
                             <label for="editExpiryDate" class="form-label">Expiry date</label>
                             <input type="date" class="form-control" id="editExpiryDate" name="editExpiryDate" required>
+                            <div class="invalid-feedback">Please select a date</div>
                         </div>
                 </div>
                 <div class="modal-footer">

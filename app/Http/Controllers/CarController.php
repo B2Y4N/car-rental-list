@@ -69,12 +69,30 @@ class CarController extends Controller
     }
 
     public function store(Request $request){
+        // validate input
+        $validated = $request->validate([
+            'carPlate' => ['required', 'regex:/^[A-Z]{3}[\d]{3,4}[A-Z]{1}$/'],
+            'colour' => 'required',
+            'propellant' => 'required',
+            'seats' => 'required',
+            'expiryDate' => ['required', 'date'],
+        ]);
+
         Car::create($request->all());
 
         return redirect()->route('car.index');
     }
 
     public function update(Request $request, $id){
+        // validate input
+        $validated = $request->validate([
+            'editCarPlate' => ['required', 'regex:/^[A-Z]{3}[\d]{3,4}[A-Z]{1}$/'],
+            'editColour' => 'required',
+            'editPropellant' => 'required',
+            'editSeats' => 'required',
+            'editExpiryDate' => ['required', 'date'],
+        ]);
+
         if(Car::where('id', $id)->exists()){
             $car = Car::find($id);
             // $car->update($request->all());
