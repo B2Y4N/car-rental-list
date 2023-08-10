@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('propellant');
             $table->integer('seats');
             $table->date('expiryDate');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

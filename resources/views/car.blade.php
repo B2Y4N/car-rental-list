@@ -22,7 +22,7 @@
     <body>
         <div class="container mt-5">
             <div class="row mb-3">
-                <h2>Car Rental List</h2>
+                <h2>Car List</h2>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-2">
@@ -38,7 +38,10 @@
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-primary btn-sm" onclick="customFilter()">Filter</button>
+                    <p class="d-inline-flex gap-1">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="customFilter()">Filter</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="clearFilter()">Clear</button>
+                    </p>
                 </div>
                 <div class="col-sm-6">
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -298,6 +301,14 @@
             endDate = $('#endDate').val();
             table.draw();
         };
+
+        function clearFilter(){
+            $('#startDate').val("");
+            startDate = "";
+            $('#endDate').val("");
+            endDate = "";
+            table.draw();
+        }
 
         function setMinDate(){
             var minDate = $('#startDate').val();
